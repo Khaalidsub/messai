@@ -16,7 +16,5 @@ export class CreateMessageTelegramClient extends CreateMessageBaseClient<ICreate
   }
   sendMessageInternal<ICreateMessageTelegram>(
     message: ICreateMessageTelegram
-  ): Promise<Result<ICreateMessageResponseResult, Error>> {
-    return ok({});
-  }
+  ): Promise<Result<ICreateMessageResponseResult, Error>> {}
 }

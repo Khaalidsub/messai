@@ -1,12 +1,18 @@
+version: '3.7'
 services:
+  puppeteer:
+    image: ghcr.io/puppeteer/puppeteer:latest
+    restart: on-failure
+    privileged: true
+
   mongo:
-    image: "memphisos/mongo:4.2"
+    image: 'memphisos/mongo:4.2'
     restart: on-failure
     pull_policy: always
     networks:
       - memphis
   memphis-cluster:
-    image: "memphisos/memphis-broker:latest"
+    image: 'memphisos/memphis-broker:latest'
     healthcheck:
       test: wget http://127.0.0.1:9000 --spider || exit 1
       interval: 10s
@@ -17,10 +23,10 @@ services:
     networks:
       - memphis
     ports:
-      - "9000:9000"
-      - "6666:6666"
-      - "7770:7770"
-      - "8222:8222"
+      - '9000:9000'
+      - '6666:6666'
+      - '7770:7770'
+      - '8222:8222'
     environment:
       - ROOT_PASSWORD=memphis
       - CONNECTION_TOKEN=memphis
@@ -34,7 +40,7 @@ services:
     command: >
       -js --auth=memphis --websocket_no_tls=true -m 8222
   memphis-http-proxy:
-    image: "memphisos/memphis-http-proxy:latest"
+    image: 'memphisos/memphis-http-proxy:latest'
     depends_on:
       memphis-cluster:
         condition: service_healthy
@@ -43,7 +49,7 @@ services:
     networks:
       - memphis
     ports:
-      - "4444:4444"
+      - '4444:4444'
     environment:
       - JWT_SECRET=JWT_TEST_PURPOSE
       - REFRESH_JWT_SECRET=REFRESH_JWT_TEST_PURPOSE
